@@ -2,9 +2,9 @@ from datetime import datetime
 
 from flask import Flask, request, Response
 
-from buses import get_buses
-from events import get_events
-from weather import get_weather
+from buses import get_bus_lines
+from events import get_event_lines
+from weather import get_weather_lines
 
 VOLTAGE_LOG_PATH = "/home/szw/lilygo/voltage.log"
 
@@ -26,9 +26,9 @@ def lilygo():
     with open("template.txt", "r") as template_file:
         template = template_file.read()
     message = template.format(
-        events=get_events(),
-        buses=get_buses(),
-        weather=get_weather(),
+        events=get_event_lines(),
+        buses=get_bus_lines(),
+        weather=get_weather_lines(),
         time=datetime.now().strftime("%H:%M")
     )
 
