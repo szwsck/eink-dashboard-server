@@ -2,6 +2,7 @@ import pickle
 from datetime import datetime
 from pathlib import Path
 from typing import Optional
+from zoneinfo import ZoneInfo
 
 from google.auth.external_account_authorized_user import Credentials
 from google.auth.transport.requests import Request
@@ -12,10 +13,10 @@ TOKENS_PATH = "tokens.pickle"
 SECRET_PATH = "secret.json"
 SCOPES = ["https://www.googleapis.com/auth/calendar.readonly"]
 
-LINE_COUNT = 9
-LINE_WIDTH = 18
+LINE_COUNT = 4
+LINE_WIDTH = 38
 
-TIMEZONE_OFFSET = "+01:00"
+TIMEZONE = ZoneInfo("Europe/Warsaw")
 
 
 def load_tokens() -> Optional[Credentials]:
@@ -56,19 +57,22 @@ def format_event(event: dict) -> str:
         start_time = event["start"]["date"][5:10]
 
     name = event["summary"]
-    if len(name) > LINE_WIDTH - 6:
-        name = name[:LINE_WIDTH - 7] + "…"
 
-    return f"{start_time} {name}"
+    formatted = f"{start_time} {name}"
+
+    if len(formatted) > LINE_WIDTH:
+        formatted = formatted[:LINE_WIDTH-1] + "…"
+
+    return formatted
 
 
 def get_json_events(service: Resource, calendar_id: str) -> list[dict]:
-    now = datetime.utcnow()
+    now = datetime.now(TIMEZONE)
     next_midnight = now.replace(hour=23, minute=59, second=59)
     return service.events().list(
         calendarId=calendar_id,
-        timeMin=now.isoformat() + TIMEZONE_OFFSET,
-        timeMax=next_midnight.isoformat() + TIMEZONE_OFFSET,
+        timeMin=now.strftime("%Y-%m-%dT%H:%M:%S%z"),
+        timeMax=next_midnight.strftime("%Y-%m-%dT%H:%M:%S%z"),
         maxResults=LINE_COUNT,
         singleEvents=True,
         orderBy="startTime",

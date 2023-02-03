@@ -1,4 +1,5 @@
 from datetime import datetime
+from zoneinfo import ZoneInfo
 
 from flask import Flask, request, Response
 
@@ -7,6 +8,7 @@ from events import get_event_lines
 from weather import get_weather_lines
 
 VOLTAGE_LOG_PATH = "/home/szw/lilygo/voltage.log"
+TIMEZONE = ZoneInfo("Europe/Warsaw")
 
 app = Flask(__name__)
 
@@ -29,7 +31,7 @@ def lilygo():
         events=get_event_lines(),
         buses=get_bus_lines(),
         weather=get_weather_lines(),
-        time=datetime.now().strftime("%H:%M")
+        time=datetime.now(TIMEZONE).strftime("%H:%M")
     )
 
     # if message is same as before, respond with 304 Not Modified

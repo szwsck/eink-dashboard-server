@@ -1,11 +1,11 @@
-╭╸Wydarzenia╺────────┬╸Autobusy╺─────────╮
-│ {events[0]: <18} │ {buses[0]: <17} │
-│ {events[1]: <18} │ {buses[1]: <17} │
-│ {events[2]: <18} │ {buses[2]: <17} │
-│ {events[3]: <18} │ {buses[3]: <17} │
-│ {events[4]: <18} ├╸Pogoda╺───────────┤
-│ {events[5]: <18} │ {weather[0]: <17} │
-│ {events[6]: <18} │ {weather[1]: <17} ││
-│ {events[7]: <18} │ {weather[2]: <17} │
-│ {events[8]: <18} │ {weather[3]: <17} │
-╰────────────────────┴──────╸{time}╺─╸   ╺╯
+╭╸Wydarzenia╺────────────────────────────╮
+│ {events[0]: <38} │
+│ {events[1]: <38} │
+│ {events[2]: <38} │
+│ {events[3]: <38} │
+├╸Autobusy╺────────┬╸Pogoda╺─────────────┤
+│ {buses[0]: <16} │ {weather[0]: <19} │
+│ {buses[1]: <16} │ {weather[1]: <19} │
+│ {buses[2]: <16} │ {weather[2]: <19} │
+│ {buses[3]: <16} │ {weather[3]: <19} │
+╰──────────────────┴────────────────╸   ╺╯

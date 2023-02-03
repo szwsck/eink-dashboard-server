@@ -1,2 +1,2 @@
 def get_weather_lines() -> list[str]:
-    return ["4° Śnieg", "", "", "", "", "", ""]
+    return ["-2° Śnieg", "", "20:00 -3° Pochmurno", "Jutro  0° Słońce"]
