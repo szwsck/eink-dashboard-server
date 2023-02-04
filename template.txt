@@ -4,8 +4,8 @@
 │ {events[2]: <38} │
 │ {events[3]: <38} │
 ├╸Autobusy╺────────┬╸Pogoda╺─────────────┤
-│ {buses[0]: <16} │ {weather[0]: <19} │
-│ {buses[1]: <16} │ {weather[1]: <19} │
-│ {buses[2]: <16} │ {weather[2]: <19} │
-│ {buses[3]: <16} │ {weather[3]: <19} │
+│ {departures[0]: <16} │ {weather[0]: <19} │
+│ {departures[1]: <16} │ {weather[1]: <19} │
+│ {departures[2]: <16} │ {weather[2]: <19} │
+│ {departures[3]: <16} │ {weather[3]: <19} │
 ╰──────────────────┴────────────────╸   ╺╯

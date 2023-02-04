@@ -3,7 +3,7 @@ from zoneinfo import ZoneInfo
 
 from flask import Flask, request, Response
 
-from buses import get_bus_lines
+from departures import get_departures
 from events import get_event_lines
 from weather import get_weather_lines
 
@@ -29,7 +29,7 @@ def lilygo():
         template = template_file.read()
     message = template.format(
         events=get_event_lines(),
-        buses=get_bus_lines(),
+        departures=get_departures(),
         weather=get_weather_lines(),
         time=datetime.now(TIMEZONE).strftime("%H:%M")
     )
