@@ -1,4 +1,4 @@
-### eink-dashboard
+### eink-dashboard-server
 
 This is the server part of a hobby project to display a simple dashboard on an E-Ink display.
 
