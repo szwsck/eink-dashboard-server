@@ -3,20 +3,14 @@ from zoneinfo import ZoneInfo
 
 import pandas as pd
 
-TIMEZONE = ZoneInfo("Europe/Warsaw")
+from config import DEPARTURES_PATH, TIMEZONE
 
-
-# departures.csv should be a file like:
-# route,day,hour,minute
-# 158,0,4,43
-# 158,0,5,13
-# 158,0,5,33
 
 def get_departures() -> list[str]:
-    now = datetime.now(TIMEZONE)
+    now = datetime.now(ZoneInfo(TIMEZONE))
     current_minutes_since_week_start = (24 * now.weekday() + now.hour) * 60 + now.minute
 
-    df = pd.read_csv("departures.csv")
+    df = pd.read_csv(DEPARTURES_PATH)
     minutes_since_week_start = (24 * df["day"] + df["hour"]) * 60 + df["minute"]
 
     df["diff"] = (minutes_since_week_start - current_minutes_since_week_start) % (7 * 24 * 60)

@@ -9,14 +9,7 @@ from google.auth.transport.requests import Request
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build, Resource
 
-TOKENS_PATH = "tokens.pickle"
-SECRET_PATH = "secret.json"
-SCOPES = ["https://www.googleapis.com/auth/calendar.readonly"]
-
-LINE_COUNT = 4
-LINE_WIDTH = 38
-
-TIMEZONE = ZoneInfo("Europe/Warsaw")
+from config import TOKENS_PATH, SECRET_PATH, SCOPES, SECTION_SIZES, TIMEZONE
 
 
 def load_tokens() -> Optional[Credentials]:
@@ -60,20 +53,21 @@ def format_event(event: dict) -> str:
 
     formatted = f"{start_time} {name}"
 
-    if len(formatted) > LINE_WIDTH:
-        formatted = formatted[:LINE_WIDTH-1] + "…"
+    max_width = SECTION_SIZES["events"][1]
+    if len(formatted) > max_width:
+        formatted = formatted[:max_width - 1] + "…"
 
     return formatted
 
 
 def get_json_events(service: Resource, calendar_id: str) -> list[dict]:
-    now = datetime.now(TIMEZONE)
+    now = datetime.now(ZoneInfo(TIMEZONE))
     next_midnight = now.replace(hour=23, minute=59, second=59)
     return service.events().list(
         calendarId=calendar_id,
         timeMin=now.strftime("%Y-%m-%dT%H:%M:%S%z"),
         timeMax=next_midnight.strftime("%Y-%m-%dT%H:%M:%S%z"),
-        maxResults=LINE_COUNT,
+        maxResults=SECTION_SIZES["events"][0],
         singleEvents=True,
         orderBy="startTime",
     ).execute()["items"]
@@ -86,9 +80,10 @@ def get_event_lines() -> list[str]:
     events = []
     for calendar_id in calendar_ids:
         events.extend(get_json_events(service, calendar_id))
-    lines = [format_event(json) for json in events[:LINE_COUNT]]
-    if len(lines) < LINE_COUNT:
-        lines.extend((LINE_COUNT - len(lines)) * [""])
+    max_lines = SECTION_SIZES["events"][0]
+    lines = [format_event(json) for json in events[:max_lines]]
+    if len(lines) < max_lines:
+        lines.extend((max_lines - len(lines)) * [""])
     return lines
 
 

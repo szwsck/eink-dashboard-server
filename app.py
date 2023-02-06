@@ -3,12 +3,10 @@ from zoneinfo import ZoneInfo
 
 from flask import Flask, request, Response
 
+from config import VOLTAGE_LOG_PATH, TIMEZONE, TEMPLATE_PATH
 from departures import get_departures
 from events import get_event_lines
 from weather import get_weather_lines
-
-VOLTAGE_LOG_PATH = "/home/szw/lilygo/voltage.log"
-TIMEZONE = ZoneInfo("Europe/Warsaw")
 
 app = Flask(__name__)
 
@@ -25,13 +23,13 @@ def lilygo():
     log_voltage()
 
     # construct message
-    with open("template.txt", "r") as template_file:
+    with open(TEMPLATE_PATH, "r") as template_file:
         template = template_file.read()
     message = template.format(
         events=get_event_lines(),
         departures=get_departures(),
         weather=get_weather_lines(),
-        time=datetime.now(TIMEZONE).strftime("%H:%M")
+        time=datetime.now(ZoneInfo(TIMEZONE)).strftime("%H:%M")
     )
 
     # if message is same as before, respond with 304 Not Modified
